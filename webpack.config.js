@@ -1,11 +1,11 @@
 const path = require('path');
 
 module.exports = {
-    entry: './src/main16.ts',
+    entry: './src/main17.ts',
     mode: 'development',
     output: {
         path: path.resolve(__dirname, 'public/javascripts'),
-        filename: 'main16.js'
+        filename: 'main17.js'
     },
 
     module: {
