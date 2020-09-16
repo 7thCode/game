@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "build": "webpack"
+    "build": "webpack --devtool source-map"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -19,7 +19,7 @@
   },
   "devDependencies": {
     "@types/node": "^12.7.4",
-    "ts-loader": "^6.0.4",
+    "ts-loader": "^6.2.2",
     "typescript": "^3.5.2"
   }
 }
