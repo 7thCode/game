@@ -18,6 +18,7 @@ export default class MainScene extends Phaser.Scene {
 	private preload(): void {
 		this.load.image('sky', 'assets/sky.png');
 		this.load.image('ground', 'assets/platform.png');
+		this.load.image('kabe', 'assets/tate.png');
 		this.load.image('star', 'assets/star.png');
 		this.load.image('bomb', 'assets/bomb.png');
 		this.load.spritesheet('dude', 'assets/dude.png', {frameWidth: 32, frameHeight: 48});
@@ -36,8 +37,11 @@ export default class MainScene extends Phaser.Scene {
 
 		//  Now let's create some ledges
 		this.platforms.create(600, 400, 'ground');
-		this.platforms.create(50, 250, 'ground');
-		this.platforms.create(750, 220, 'ground');
+		this.platforms.create(250, 250, 'ground');
+
+		this.platforms.create(300, 300, 'kabe');
+
+	//	this.platforms.create(750, 220, 'ground');
 
 		// The player and its settings
 		this.player = this.physics.add.sprite(100, 450, 'dude');
@@ -70,12 +74,22 @@ export default class MainScene extends Phaser.Scene {
 		//  Input Events
 		this.cursors = this.input.keyboard.createCursorKeys();
 
+
+		this.stars = this.physics.add.group();
+
+		for (let index = 0 ; index < 5; index++) {
+			this.stars.create(Math.random() * 600 , Math.random() * 500, 'star');
+		}
+
+
+
+
 		//  Some stars to collect, 12 in total, evenly spaced 70 pixels apart along the x axis
-		this.stars = this.physics.add.group({
-			key: 'star',
-			repeat: 11,
-			setXY: {x: 12, y: 0, stepX: 70}
-		});
+	//	this.stars = this.physics.add.group({
+	//		key: 'star',
+	//		repeat: 11,
+	//		setXY: {x: 12, y: 12, stepX: Math.random() * 600 ,stepY: Math.random() * 500}
+	//	});
 
 		this.stars.children.iterate( (child: any) => {
 			//  Give each star a slightly different bounce
@@ -83,6 +97,7 @@ export default class MainScene extends Phaser.Scene {
 		});
 
 		this.bombs = this.physics.add.group();
+		
 
 		//  The score
 		this.scoreText = this.add.text(16, 16, 'score: 0', {fontSize: '32px', fill: '#000'});
@@ -94,7 +109,7 @@ export default class MainScene extends Phaser.Scene {
 
 		//  Checks to see if the player overlaps with any of the stars, if he does call the collectStar function
 		this.physics.add.overlap(this.player, this.stars, this.collectStar, null, this);
-		this.physics.add.collider(this.player, this.bombs, this.hitBomb, null, this);
+//		this.physics.add.collider(this.player, this.bombs, this.hitBomb, null, this);
 	}
 
 	public update() : void {
@@ -131,18 +146,25 @@ export default class MainScene extends Phaser.Scene {
 		this.scoreText.setText('Score: ' + this.score);
 
 		if (this.stars.countActive(true) === 0) {
-			//  A new batch of stars to collect
-			this.stars.children.iterate( (child:any) => {
-				child.enableBody(true, child.x, 0, true, true);
-			});
 
-			const x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
 
-			const bomb = this.bombs.create(x, 16, 'bomb');
-			bomb.setBounce(1);
-			bomb.setCollideWorldBounds(true);
-			bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
-			bomb.allowGravity = false;
+			this.scene.start('WorldScene');
+
+
+	//		//  A new batch of stars to collect
+	//		this.stars.children.iterate( (child:any) => {
+	//			child.enableBody(true, child.x, 0, true, true);
+	//		});
+
+	//		const x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
+//
+//			const bomb = this.bombs.create(x, 16, 'bomb');
+//			bomb.setBounce(1);
+//			bomb.setCollideWorldBounds(true);
+//			bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
+//			bomb.allowGravity = false;
+
+
 		}
 	}
 
