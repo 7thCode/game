@@ -43,7 +43,7 @@ export default class MainScene extends Phaser.Scene {
 		this.player = this.physics.add.sprite(100, 450, 'dude');
 
 		//  Player physics properties. Give the little guy a slight bounce.
-		this.player.setBounce(0.2);
+		this.player.setBounce(0);
 		this.player.setCollideWorldBounds(true);
 
 		//  Our player animations, turning, walking left and walking right.
@@ -105,8 +105,15 @@ export default class MainScene extends Phaser.Scene {
 			} else if (this.cursors.right.isDown) {
 				this.player.setVelocityX(160);
 				this.player.anims.play('right', true);
+			}else if (this.cursors.up.isDown) {
+				this.player.setVelocityY(-160);
+		//		this.player.anims.play('up', true);
+			} else if (this.cursors.down.isDown) {
+				this.player.setVelocityY(160);
+		//		this.player.anims.play('down', true);
 			} else {
 				this.player.setVelocityX(0);
+				this.player.setVelocityY(0);
 				this.player.anims.play('turn');
 			}
 
