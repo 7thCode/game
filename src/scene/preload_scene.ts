@@ -11,14 +11,9 @@ export default class PreloadScene extends Phaser.Scene {
 	}
   
 	private create(): void {
-		this.add.image(400, 300, 'logo');
-		this.cursors = this.input.keyboard.createCursorKeys();
-	}
-
-	public update() : void {
-		if (this.cursors.space.isDown) {
-			this.scene.start('MainScene');
-		}
+		const image = this.add.image(400, 300, 'logo');
+		image.setInteractive();
+		image.on('pointerdown', () => {this.scene.start('MainScene')} );
 	}
 
   }
